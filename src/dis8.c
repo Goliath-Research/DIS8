@@ -21,75 +21,81 @@
 
 
 
-/*								 */
-/*     Lista enlazada de cadenas de caracteres y su dirección	 */
-/*								 */
+/*								 								*/
+/*     Lista enlazada de cadenas de caracteres y su dirección	*/
+/*								 								*/
 
-typedef struct nodo {
+typedef struct nodo 
+{
 	word		dir;
 	char		*str;
 	struct nodo	*link;
 } *LINK;
 
-/*								 */
+/*								 								 */
 /*   Cadenas de caracteres en un arreglo ordenado por dirección  */
-/*								 */
+/*								 								 */
 
-typedef struct {
+typedef struct 
+{
 	word	dir;
 	char	*str;
 } STR;
 
-/*									*/
+/*																*/
 /*	Información necesaria por cada byte del programa analizado	*/
-/*									*/
+/*																*/
 
-typedef struct {
+typedef struct 
+{
 	unsigned Code : 1;	/*	0 - Dato		*/
-				/*	1 - Código		*/
+						/*	1 - Código		*/
 	unsigned Data : 3;	/*	000 - Byte		*/
-				/*	001 - Word		*/
-				/*	010 - String 0		*/
-				/*	011 - String $		*/
-				/*	100 - DS		*/
-				/*	101 - Comentado 	*/
+						/*	001 - Word		*/
+						/*	010 - String 0	*/
+						/*	011 - String $	*/
+						/*	100 - DS		*/
+						/*	101 - Comentado 	*/
 	unsigned Label : 1;	/*	0 - Sin etiqueta	*/
-				/*      1 - Con etiqueta        */
-	unsigned Break : 1;	/*      0 - Continuar auto...   */
-				/*      1 - Parar automático    */
-	unsigned Symbol : 1;	/*	0 - No tiene símbolo	*/
-				/*	1 - Hay símbolo 	*/
-	unsigned Commen : 1;	/*	0 - Sin comentario	*/
-				/*	1 - Hay comentario	*/
+						/*  1 - Con etiqueta        */
+	unsigned Break : 1;	/*  0 - Continuar auto...   */
+						/*  1 - Parar automático    */
+	unsigned Symbol : 1;/*	0 - No tiene símbolo	*/
+						/*	1 - Hay símbolo 		*/
+	unsigned Commen : 1;/*	0 - Sin comentario	*/
+						/*	1 - Hay comentario	*/
 } type;
 
-/*								*/
+/*														*/
 /*	Información necesaria por cada instrucción Z-80		*/
-/*								*/
+/*														*/
 
-typedef struct {
-	unsigned Size : 2;	/*	Tamaño en bytes		*/
-	unsigned RST : 1;	/*	Instrucción RST		*/
-	unsigned JPa : 1;	/*	JP absoluto o CALL	*/
-	unsigned JPr : 1;	/*	JP relativo		*/
+typedef struct 
+{
+	unsigned Size : 2;	/*	Tamaño en bytes			*/
+	unsigned RST : 1;	/*	Instrucción RST			*/
+	unsigned JPa : 1;	/*	JP absoluto o CALL		*/
+	unsigned JPr : 1;	/*	JP relativo				*/
 	unsigned RET : 1;	/*	RET o JP incondicional	*/
 	unsigned Mult : 1;	/*	Instrucción múltiple	*/
-	unsigned HL : 1;	/*	Referencia HL		*/
+	unsigned HL : 1;	/*	Referencia HL			*/
 } info;
 
-typedef struct {
+typedef struct 
+{
 	info	att;
 	char	*s;
-	char	*t;	/*      w   - word              */
-				/*	b   - byte		*/
-				/*      e   - label             */
-				/*	r   - relative		*/
+	char	*t;	/*  w   - word              */
+				/*	b   - byte				*/
+				/*  e   - label             */
+				/*	r   - relative			*/
 				/*	i,x - index IX,IY o HL	*/
 				/*	h   - index XH,YH o H	*/
 				/*	l   - index XL,YL o L	*/
 } info0;
 
-typedef struct {
+typedef struct 
+{
 	info	att;
 	char	*s;
 } info1;
@@ -508,7 +514,8 @@ word LENIxCB(word PC)
 	/* Compat: the source says (op >> 3 + 2) % 8, and '+' binds tighter
 	   than '>>', so this is (op >> 5) % 8. The printer instead accepts
 	   the IX/IY CB form when (op + 2) % 8 == 0, i.e. (op & 7) == 6. */
-	if (dis_compat) {
+	if (dis_compat) 
+	{
 	  if ((op >> (3 + 2)) % 8)
 	    return 1;
 	  return 4;
@@ -525,8 +532,8 @@ word LENIx(word PC)
 
 	if (Table[cod = PROG[PC]].att.HL)
 	  return((word)(Table[cod].att.Size + 1 + (dis_compat
-	  ? (strstr(Table[PROG[PC + 1]].s, "(i") != NULL)
-	  : (strstr(Table[cod].s, "(i") != NULL))));
+	  	? (strstr(Table[PROG[PC + 1]].s, "(i") != NULL)
+	  	: (strstr(Table[cod].s, "(i") != NULL))));
 	else
 	  if (cod == 0xCB)
 	    return(LENIxCB(PC+1));
@@ -564,14 +571,16 @@ word PrintHex(word w, int label, int count)
 	word    k = 0;
 	char    s[8];
 
-	for (i = count; i; ) {
+	for (i = count; i; ) 
+	{
 	  j = w % 16;
 	  w >>= 4;
 	  s[--i] = (char)((j < 10) ? ('0' + j) : ('A' + j - 10));
 	}
 	if (label)
 	  k++,dis_putc('L',m);
-	else {
+	else 
+	{
 	  if (s[0] > '9')
 	    k++,dis_putc('0',m);
 	}
@@ -609,61 +618,82 @@ void Print(char *s, word IP)
 	word	label;
 	STR	*p;
 
-	while (*s) {
-	  switch (*s) {
-	    case 'w': PrintHex(rd16(&PROG[++IP]),FALSE,4);
+	while (*s) 
+	{
+	  switch (*s) 
+	  {
+	    case 'w': 
+			  PrintHex(rd16(&PROG[++IP]),FALSE,4);
 		      IP += 2;
 		      break;
-	    case 'e': label = rd16(&PROG[++IP]);
-	    	      if ((Sym == 0) ||
-			  ((p = bsearch(&label,Sym,symbols,sizeof(STR),(fptr)compare)) == NULL))
-			PrintHex(label,TRUE,4);
+	    case 'e': 
+			  label = rd16(&PROG[++IP]);
+	    	  if ((Sym == 0) || ((p = bsearch(&label,Sym,symbols,sizeof(STR),(fptr)compare)) == NULL))
+				PrintHex(label,TRUE,4);
 		      else
-			dis_fputs(p->str,m);
-		      IP += 2;
+				dis_fputs(p->str,m);
+		       IP += 2;
 		      break;
-	    case 'b': PrintHex(b = (byte) PROG[++IP],FALSE,2);
+	    case 'b': 
+			  PrintHex(b = (byte) PROG[++IP],FALSE,2);
 		      Byt = TRUE;
 		      IP += 1;
 		      break;
-	    case 'r': PrintHex(OFFSET + PC + 2 + rds8(PROG[++IP]),TRUE,4);
+	    case 'r': 
+			  PrintHex(OFFSET + PC + 2 + rds8(PROG[++IP]),TRUE,4);
 		      break;
-	    case 'i': switch (PROG[PC]) {
-			case 0xDD: dis_fprintf(m,"IX");
-				   if (Par)
-				     PrintDIS(&IP);
+	    case 'i': 
+			  switch (PROG[PC]) 
+			  {
+			    case 0xDD: 
+					dis_fprintf(m,"IX");
+				    if (Par)
+				    	PrintDIS(&IP);
 				   break;
-			case 0xFD: dis_fprintf(m,"IY");
-				   if (Par)
-				     PrintDIS(&IP);
+				case 0xFD: 
+					dis_fprintf(m,"IY");
+				   	if (Par)
+				    	PrintDIS(&IP);
 				   break;
-			default  : dis_fprintf(m,"HL");
+				default  : dis_fprintf(m,"HL");
 		      };
 		      break;
-	    case 'x': switch (PROG[PC]) {
-			case 0xDD: dis_fprintf(m,"IX");
+	    case 'x': 
+			switch (PROG[PC]) 
+			{
+				case 0xDD: 
+					dis_fprintf(m,"IX");
 				   break;
-			case 0xFD: dis_fprintf(m,"IY");
+				case 0xFD: 
+					dis_fprintf(m,"IY");
 				   break;
-			default  : dis_fprintf(m,"HL");
-		      };
-		      break;
-	    case 'h': switch (PROG[PC]) {
-			case 0xDD: dis_fprintf(m,"XH");
+				default  : dis_fprintf(m,"HL");
+		    };
+		    break;
+	    case 'h': 
+			switch (PROG[PC]) 
+			{
+				case 0xDD: 
+					dis_fprintf(m,"XH");
 				   break;
-			case 0xFD: dis_fprintf(m,"YH");
+				case 0xFD: 
+					dis_fprintf(m,"YH");
 				   break;
-			default  : dis_fprintf(m,"H");
-		      };
-		      break;
-	    case 'l': switch (PROG[PC]) {
-			case 0xDD: dis_fprintf(m,"XL");
+				default  : dis_fprintf(m,"H");
+		    };
+		    break;
+	    case 'l': 
+			switch (PROG[PC]) 
+			{
+				case 0xDD: 
+					dis_fprintf(m,"XL");
 				   break;
-			case 0xFD: dis_fprintf(m,"YL");
+				case 0xFD: 
+					dis_fprintf(m,"YL");
 				   break;
-			default  : dis_fprintf(m,"L");
-		      };
-		      break;
+				default  : dis_fprintf(m,"L");
+		    };
+		    break;
 	    default:
 		      if (!Par)
 		        Par = (*s == '(');
@@ -729,7 +759,8 @@ void DISASMIxCB()
 	i = (byte)((cod = PROG[++PC + 2]) >> 3);
 	if ((cod + 2) % 8)
 	  Error();
-	else {
+	else 
+	{
 	  if (i < 8)
 	    Proc1IxCB(i);
 	  else
@@ -742,14 +773,16 @@ void DISASMIx()
 {
 	byte	cod;
 
-	if (Table[cod = PROG[PC+1]].att.HL) {
+	if (Table[cod = PROG[PC+1]].att.HL) 
+	{
 	  Print(Table[cod].s,PC+1);
 	  PC += Table[cod].att.Size + 1 + (strstr(Table[PROG[PC+1]].s,"(i") != NULL);
 	}
 	else
 	  if (PROG[PC+1] == 0xCB)
 	    DISASMIxCB();
-	  else {
+	  else 
+	  {
 	    Error();
 	    PC++;
 	  }
@@ -760,11 +793,13 @@ void DISASMED()
 	byte	cod;
 
 	cod = PROG[PC+1];
-	if ((cod < 0x40) || (cod > 0xBB) || (TableED[cod - 0x40].s[0] == '\0')) {
+	if ((cod < 0x40) || (cod > 0xBB) || (TableED[cod - 0x40].s[0] == '\0')) 
+	{
 	  Error();
 	  PC++;
 	}
-	else {
+	else 
+	{
 	  cod -= 0x40;
 	  Print(TableED[cod].s,PC+1);
 	  PC += TableED[cod].att.Size + 1;
@@ -777,20 +812,23 @@ void PrintHead()
 	STR   *p,*q;
 
 	label = PC + OFFSET;
-	if (TYPE[PC].Commen) {
+	if (TYPE[PC].Commen) 
+	{
 	  q = bsearch(&label,Txt,comments,sizeof(STR),(fptr)compare);
 	  do
 	    p = q--;
 	  while ((p != Txt) && (p->dir == q->dir));
-	  do {
+	  do 
 	    dis_fputs("; ",m);
 	    dis_fputs(p->str,m);
 	    dis_fputs("\n",m);
 	    q  = p++;
-	  } while ((p != Txt + comments) && (p->dir == q->dir));
+	  while ((p != Txt + comments) && (p->dir == q->dir));
 	}
-	if (TYPE[PC].Label) {
-	  if (TYPE[PC].Symbol) {
+	if (TYPE[PC].Label) 
+	{
+	  if (TYPE[PC].Symbol) 
+	  {
 	    p = bsearch(&label,Sym,symbols,sizeof(STR),(fptr)compare);
 	    dis_fputs(p->str,m);
 	  }
@@ -806,10 +844,12 @@ void DISASMCODE(word PC1, word PC2)
 	byte    cod,ind;
 
 	PC = PC1;
-	while (PC <= PC2) {
+	while (PC <= PC2) 
+	{
 	  ind = 0;
 	  cod = PROG[PC];
-	  if (CPU < 2) {
+	  if (CPU < 2) 
+	  {
 	    if ((CPU == 0) && ((cod == 0x20) || (cod == 0x30)))
 	      ind++,dis_fprintf(m,"\t.8085\n");
 	    else
@@ -818,17 +858,20 @@ void DISASMCODE(word PC1, word PC2)
 	  }
 	  PrintHead();
 	  if (Table[cod].att.Mult)
-	    switch (cod) {
+	    switch (cod) 
+		{
 	      case 0xCB: DISASMCB(); break;
 	      case 0xED: DISASMED(); break;
 	      case 0xDD:
 	      case 0xFD: DISASMIx();
 	    }
-	  else {
+	  else 
+	  {
 	    Print(((CPU == 2) || (strcmp(Table[cod].t,"") == 0)) ? Table[cod].s : Table[cod].t,PC);
 	    PC += Size(cod);
 	  }
-	  if (ind) {
+	  if (ind) 
+	  {
 	    if (CPU == 0)
 	      dis_fprintf(m,"\t.8080\n");
 	    else
@@ -843,10 +886,12 @@ void PrintString(byte c)
 	byte	b;
 
 	dis_fprintf(m,"DB\t");
-	do {
+	do 
 	  b = PROG[PC];
-	  if ((b > 31) && (b < 127)) {
-	    if (!ASCII) {
+	  if ((b > 31) && (b < 127)) 
+	  {
+	    if (!ASCII) 
+		{
 	      dis_putc('\'',m);
 	      ASCII = TRUE;
 	    }
@@ -854,8 +899,10 @@ void PrintString(byte c)
 	    if (b == '\'')
 	      dis_putc('\'',m);
 	  }
-	  else {
-	    if (ASCII) {
+	  else 
+	  {
+	    if (ASCII) 
+		{
 	      dis_fprintf(m,"\',");
 	      ASCII = FALSE;
 	    }
@@ -863,7 +910,6 @@ void PrintString(byte c)
 	    if (b != c)
 	      dis_putc(',',m);
 	  }
-	}
 	while (PROG[PC++] != c);
 	if (ASCII)
 	  dis_putc('\'',m);
@@ -875,7 +921,8 @@ word PrintDB(word IP,word len)
 	word	i,c = 0;
 
 	dis_fprintf(m,"DB\t");
-	for (i = 1; i <= len; i++) {
+	for (i = 1; i <= len; i++) 
+	{
 	  c += PrintHex(PROG[IP++],FALSE,2);
 	  if (i != len)
 	    c++,dis_putc(',',m);
@@ -889,11 +936,12 @@ void DISASMComment()
 	word    len,IP,count = 0;
 
 	IP = PC;
-	do {
+	do
 	  count++;
 	  IP++;
-	} while ((TYPE[IP].Data == 5) && (!TYPE[IP].Label));
-	while ((len = LEN(PC)) <= count) {
+	while ((TYPE[IP].Data == 5) && (!TYPE[IP].Label));
+	while ((len = LEN(PC)) <= count) 
+	{
 	  n = PrintDB(PC,len);
 	  for (i = 0; i <= ((23 - n) >> 3); i++)
 	    dis_putc('\t',m);
@@ -904,7 +952,8 @@ void DISASMComment()
 	  count -= len;
 	  dis_putc('\t',m);
 	}
-	if (count) {
+	if (count) 
+	{
 	  PrintDB(PC,count);
 	  PC += count;
 	}
@@ -917,34 +966,43 @@ void DISASMDATA(word PC1,word LIM)
 	word	count;
 
 	PC = PC1;
-	while (PC <= LIM) {
+	while (PC <= LIM) 
+	{
 	  PrintHead();
-	  switch (TYPE[PC].Data) {
-	    case 0: dis_fprintf(m,"DB\t");
+	  switch (TYPE[PC].Data) 
+	  {
+	    case 0: 
+			dis_fprintf(m,"DB\t");
 		    PrintHex(cod = PROG[PC],FALSE,2);
-		    if (!TYPE[PC].Label) {
+		    if (!TYPE[PC].Label) 
+			{
 		      dis_fprintf(m,"\t\t\t;");
 		      PrintHex(PC + OFFSET,FALSE,4);
 		      if ((cod > 31) && (cod < 127))
-			dis_fprintf(m," '%c'",cod);
+			    dis_fprintf(m," '%c'",cod);
 		    }
 		    dis_putc('\n',m);
 		    PC++;
 		    break;
-	    case 1: dis_fprintf(m,"DW\t");
+	    case 1: 
+			dis_fprintf(m,"DW\t");
 		    PrintHex(rd16(&PROG[PC]),FALSE,4);
-		    if (!TYPE[PC].Label) {
+		    if (!TYPE[PC].Label) 
+			{
 		      dis_fprintf(m,"\t\t\t;");
 		      PrintHex(PC + OFFSET,FALSE,4);
 		    }
 		    PC += 2;
 		    dis_putc('\n',m);
 		    break;
-	    case 2: PrintString(0);
+	    case 2: 
+			PrintString(0);
 		    break;
-	    case 3: PrintString('$');
+	    case 3: 
+			PrintString('$');
 		    break;
-	    case 4: dis_fprintf(m,"DS\t");
+	    case 4: 
+			dis_fprintf(m,"DS\t");
 		    for (count = 1, PC++; ((TYPE[PC].Data == 4) && (!TYPE[PC].Label)); count++, PC++) ;
 		    PrintHex(count,FALSE,4);
 		    dis_putc('\n',m);
@@ -961,7 +1019,8 @@ int JMPED(word PC)
 	cod = PROG[PC];
 	if ((cod < 0x40) || (cod > 0xBB) || (TableED[cod - 0x40].s[0] == '\0'))
 	  return(FALSE);
-	else {
+	else 
+	{
 	  cod -= 0x40;
 	  return(TableED[cod].att.JPa || TableED[cod].att.JPr || TableED[cod].att.RST);
 	}
@@ -987,7 +1046,8 @@ int JMP(word PC)
 	if (!dis_compat && CPU != 2 && (cod == 0x20 || cod == 0x30))
 	  return(FALSE);
 	if ((CPU == 2) && Table[cod].att.Mult)
-	  switch (cod) {
+	  switch (cod) 
+	  {
 	    case 0xCB: return(FALSE);
 	    case 0xED: return(JMPED(PC+1));
 	    case 0xDD:
@@ -1049,21 +1109,23 @@ int DAT(word PC)
 	  return(FALSE);
 	else
 	  if ((CPU == 2) && Table[cod].att.Mult)
-	    switch (cod) {
+	    switch (cod) 
+		{
 	      case 0xCB: return(FALSE);
-	      case 0xED: {
-		/* TableED empieza en el opcode 0x40. El fuente de 1990
-		   indexaba con el segundo byte crudo, así que LD (nn),rr
-		   no veía la 'e' y la dirección no recibía etiqueta.
-		   Un índice >= 0x7C se salía del arreglo; esa lectura
-		   no se reproduce. */
-		byte ed = PROG[PC + 1];
-		if (ed < 0x40 || ed > 0xBB)
-		  return(FALSE);
-		if (dis_compat)
-		  return((ed < 0x7C) && (strchr(TableED[ed].s, 'e') != NULL));
-		return(strchr(TableED[ed - 0x40].s, 'e') != NULL);
-	      }
+	      case 0xED: 
+			  {
+				/* TableED empieza en el opcode 0x40. El fuente de 1990
+		   		indexaba con el segundo byte crudo, así que LD (nn),rr
+		  		 no veía la 'e' y la dirección no recibía etiqueta.
+		   		Un índice >= 0x7C se salía del arreglo; esa lectura
+		   		no se reproduce. */
+				byte ed = PROG[PC + 1];
+				if (ed < 0x40 || ed > 0xBB)
+		  			return(FALSE);
+				if (dis_compat)
+		  			return((ed < 0x7C) && (strchr(TableED[ed].s, 'e') != NULL));
+				return(strchr(TableED[ed - 0x40].s, 'e') != NULL);
+	      	}
 	      case 0xDD:
 	      case 0xFD: return(strchr(Table[PROG[PC+1]].s,'e') != NULL);
 	      default: return(FALSE);
@@ -1096,7 +1158,8 @@ word CTarget(word PC)
 	byte	cod;
 
 	if (Table[cod = PROG[PC]].att.Mult)
-	  switch (cod) {
+	  switch (cod) 
+	  {
 	    case 0xED: return(CTargetED(PC+1));
 	    case 0xDD:
 	    case 0xFD: return(CTargetIx(PC+1));
@@ -1125,13 +1188,10 @@ void SetToCode(word PC,word LEN)
 	  TYPE[PC++].Code = 1;
 }
 
-/*	int IsCode(word PC)	*/
-/*	{			*/
-/*	}			*/
-
 static void TravelCompat(word PC)
 {
-	while ((PC <= LIMIT) && !TYPE[PC].Code) {
+	while ((PC <= LIMIT) && !TYPE[PC].Code) 
+	{
 	  SetToCode(PC, LEN(PC));
 	  if (JMP(PC))
 	    TravelCompat(CTarget(PC));
@@ -1156,28 +1216,33 @@ static void TravelFixed(word start)
 
 	stack = (word *)xmalloc(sizeof(word) * 65536u);
 	stack[sp++] = start;
-	while (sp > 0) {
+	while (sp > 0) 
+	{
 	  word PC = stack[--sp];
 
-	  while (PC < LIMIT && !TYPE[PC].Code && !TYPE[PC].Break
-		 && TYPE[PC].Data == 0) {
+	  while (PC < LIMIT && !TYPE[PC].Code && !TYPE[PC].Break && TYPE[PC].Data == 0) 
+	  {
 	    word len = LEN(PC);
 	    word i;
 	    int spans = 0;
 
 	    if (len == 0 || (unsigned)PC + (unsigned)len > (unsigned)LIMIT)
 	      break;
-	    for (i = 0; i < len; i++) {
+	    for (i = 0; i < len; i++) 
+		{
 	      if (TYPE[(word)(PC + i)].Data != 0)
 	        spans = 1;
 	    }
 	    if (spans)
 	      break;
 	    SetToCode(PC, len);
-	    if (JMP(PC)) {
+	    if (JMP(PC)) 
+		{
 	      word tgt = CTarget(PC);
-	      if (tgt < LIMIT) {
-	        if (!RET(PC)) {
+	      if (tgt < LIMIT) 
+		  {
+	        if (!RET(PC)) 
+			{
 	          word nxt = (word)(PC + len);
 	          if (nxt < LIMIT && sp < 65536)
 	            stack[sp++] = nxt;
@@ -1212,7 +1277,8 @@ void LoadProgram(char *s)
 	FILE *fp;
 	size_t nread;
 
-	if (strlen(s) > sizeof n - 5) {
+	if (strlen(s) > sizeof n - 5) 
+	{
 	  printf("\aError al abrir el fichero %s\n", s);
 	  exit(2);
 	}
@@ -1238,11 +1304,13 @@ void LoadProgram(char *s)
 
 void insert(void)
 {
-	if (ptr) {
+	if (ptr) 
+	{
 	  p->link = (LINK) xmalloc(sizeof(*ptr));
 	  p = p->link;
 	}
-	else {
+	else 
+	{
 	  ptr = (LINK) xmalloc(sizeof(*ptr));
 	  p = ptr;
 	}
@@ -1279,88 +1347,111 @@ void DefineTypes(char *s)              /* Primera división en código y datos *
 	strcpy(n,s);
 	if (strchr(n,'.') == NULL)
 	  strcat(n,".PAR");
-	if ((f = fopen(n,"rb")) == NULL) {
+	if ((f = fopen(n,"rb")) == NULL) 
+	{
 	  printf("\n\aError al abrir el fichero %s\n",n);
 	  exit(3);
 	}
 	while (fscanf(f,"%c",&c) != EOF)
-	  switch (toupper(c)) {
-	    case 'X': pull_hex(f, &w1);
-		      if (w1 < LIMIT)
-			memmove(PROG, &PROG[w1], (size_t)(LIMIT - w1));
-		      break;
-	    case 'O': pull_hex(f, &OFFSET);
-		      break;
-	    case 'U': pull_hex(f, &w1);
-		      	  if (dis_compat) {
-	    LIMIT = (word)(w1 - OFFSET);
-	    if (LIMIT > 0xFF00)
-	      LIMIT = 0xFF00;
-	  } else if (w1 < OFFSET)
-	    LIMIT = 0;
-	  else {
-	    unsigned span = (unsigned)w1 - (unsigned)OFFSET;
-	    LIMIT = (span > dis_loaded) ? dis_loaded : (word)span;
-	  }
-		      break;
-	    case 'B': pull_hex(f, &w1);
-		      TYPE[w1 - OFFSET].Break = 1;
-		      break;
-	    case 'C': pull_hex2(f, &w1, &w2);
-		      w1 -= OFFSET;
-		      w2 -= OFFSET;
-		      while (w1 <= w2) {
-			TYPE[w1].Code = 0;
-			TYPE[w1++].Data = 5;
-		      }
-		      break;
-	    case 'D': pull_hex2(f, &w1, &w2);
-		      w1 -= OFFSET;
-		      w2 -= OFFSET;
-		      while (w1 <= w2) {
-			TYPE[w1].Code = 0;
-			TYPE[w1++].Data = 4;
-		      }
-		      break;
-	    case 'E': pull_hex(f, &w1);
-		      w1 -= OFFSET;
-		      TYPE[w1].Label = 1;
-		      Travel(w1);
-		      break;
-	    case 'L': pull_hex(f, &w1);
-		      TYPE[w1 - OFFSET].Label = 1;
-		      break;
-	    case 'S': { unsigned _u; if (fscanf(f, "%c%x", &c, &_u) == 2) w1 = (word)_u; }
-		      w1 -= OFFSET;
-	      	      TYPE[w1].Code  = 0;
-		      TYPE[w1].Label = 1;
-		      switch (c) {
-			case '0': TYPE[w1].Data = 2;
-				  break;
-			case '$': TYPE[w1].Data = 3;
-		      }
-		      break;
-	    case 'W': pull_hex2(f, &w1, &w2);
-		      w1 -= OFFSET;
-		      w2 -= OFFSET;
-		      while (w1 <= w2) {
-			TYPE[w1].Code = 0;
-			TYPE[w1++].Data = 1;
-			TYPE[w1++].Code = 0;
-		      }
-		      break;
-	    case 'H': { unsigned _u; if (fscanf(f, "%x %511[^\n\r]", &_u, n) == 2) w1 = (word)_u; }
-		      insert();
-		      ++comments;
-		      p->dir = w1;
-		      p->str = (char *) xmalloc(strlen(n) + 1);
-		      strcpy(p->str,n);
-		      TYPE[w1 - OFFSET].Commen = 1;
+	  switch (toupper(c)) 
+	  {
+	    case 'X': 
+			pull_hex(f, &w1);
+		    if (w1 < LIMIT)
+				memmove(PROG, &PROG[w1], (size_t)(LIMIT - w1));
+		    break;
+	    case 'O': 
+			pull_hex(f, &OFFSET);
+		    break;
+	    case 'U': 
+			pull_hex(f, &w1);
+		    if (dis_compat) 
+			{
+	    		LIMIT = (word)(w1 - OFFSET);
+	    		if (LIMIT > 0xFF00)
+	     			LIMIT = 0xFF00;
+	  		} 
+			else if (w1 < OFFSET)
+	    		LIMIT = 0;
+	  		else 
+			{
+	    		unsigned span = (unsigned)w1 - (unsigned)OFFSET;
+	    		LIMIT = (span > dis_loaded) ? dis_loaded : (word)span;
+	  		}
+		    break;
+	    case 'B': 
+			pull_hex(f, &w1);
+		    TYPE[w1 - OFFSET].Break = 1;
+		    break;
+	    case 'C': 
+			pull_hex2(f, &w1, &w2);
+		    w1 -= OFFSET;
+		    w2 -= OFFSET;
+		    while (w1 <= w2) 
+			{
+				TYPE[w1].Code = 0;
+				TYPE[w1++].Data = 5;
+		    }
+		    break;
+	    case 'D': 
+			pull_hex2(f, &w1, &w2);
+		    w1 -= OFFSET;
+		    w2 -= OFFSET;
+		    while (w1 <= w2) 
+			{
+				TYPE[w1].Code = 0;
+				TYPE[w1++].Data = 4;
+		    }
+		    break;
+	    case 'E': 
+			pull_hex(f, &w1);
+		    w1 -= OFFSET;
+		    TYPE[w1].Label = 1;
+		    Travel(w1);
+		    break;
+	    case 'L': 
+			pull_hex(f, &w1);
+		    TYPE[w1 - OFFSET].Label = 1;
+		    break;
+	    case 'S': 
+			{ unsigned _u; if (fscanf(f, "%c%x", &c, &_u) == 2) w1 = (word)_u; }
+		    w1 -= OFFSET;
+	      	TYPE[w1].Code  = 0;
+		    TYPE[w1].Label = 1;
+		    switch (c) 
+			{
+				case '0': 
+					TYPE[w1].Data = 2;
+				    break;
+				case '$': TYPE[w1].Data = 3;
+		    }
+		    break;
+	    case 'W': 
+			pull_hex2(f, &w1, &w2);
+		    w1 -= OFFSET;
+		    w2 -= OFFSET;
+		    while (w1 <= w2) 
+			{
+				TYPE[w1].Code = 0;
+				TYPE[w1++].Data = 1;
+				TYPE[w1++].Code = 0;
+		    }
+		    break;
+	    case 'H': 
+			{ unsigned _u; if (fscanf(f, "%x %511[^\n\r]", &_u, n) == 2) w1 = (word)_u; }
+		    insert();
+		    ++comments;
+		    p->dir = w1;
+		    p->str = (char *) xmalloc(strlen(n) + 1);
+		    strcpy(p->str,n);
+		    TYPE[w1 - OFFSET].Commen = 1;
 	  }
 	fclose(f);
-	if (comments) {
+	if (comments) 
+	{
 	  Txt = (STR *) xmalloc(comments * sizeof(STR));
-	  for (i = 0; i < comments; i++) {
+	  for (i = 0; i < comments; i++) 
+	  {
 	    p = ptr;
 	    Txt[i].dir = p->dir;
 	    Txt[i].str = p->str;
@@ -1375,12 +1466,16 @@ void DefineTypes(char *s)              /* Primera división en código y datos *
    Compat keeps the original `<= LIMIT` test (one past the end). */
 static int label_if(word p)
 {
-	if (dis_compat) {
-	  if (p <= LIMIT) {
+	if (dis_compat) 
+	{
+	  if (p <= LIMIT) 
+	  {
 	    TYPE[p].Label = 1;
 	    return 1;
 	  }
-	} else if (p < LIMIT) {
+	} 
+	else if (p < LIMIT) 
+	{
 	  TYPE[p].Label = 1;
 	  return 1;
 	}
@@ -1392,10 +1487,10 @@ void CheckTypes()		/* Precisar referencias para etiquetas	*/
 	word	PC = 0;
 
 	while (PC < LIMIT)
-	  if (TYPE[PC].Code) {
-	    if (JMP(PC)) {
+	  if (TYPE[PC].Code) 
+	  {
+	    if (JMP(PC)) 
 	      label_if(CTarget(PC));
-	    }
 	    else
 	      if (DAT(PC))
 		label_if(DTarget(PC));
@@ -1416,11 +1511,13 @@ void LoadSymbols(char *s)
 	strcpy(n,s);
 	if (strchr(n,'.') == NULL)
 	  strcat(n,".SYM");
-	if ((f = fopen(n,"rb")) == NULL) {
+	if ((f = fopen(n,"rb")) == NULL) 
+	{
 	  printf("\a\nError al abrir el fichero %s\n",n);
 	  exit(4);
 	}
-	while (fscanf(f,"%x %6s",&dir_u,sym) == 2 && ((dir = (word)dir_u), 1)) {
+	while (fscanf(f,"%x %6s",&dir_u,sym) == 2 && ((dir = (word)dir_u), 1)) 
+	{
 	  insert();
 	  ++symbols;
 	  p->dir = dir;
@@ -1430,7 +1527,8 @@ void LoadSymbols(char *s)
 	}
 	fclose(f);
 	Sym = (STR *) xmalloc(symbols * sizeof(STR));
-	for (i = 0; i < symbols; i++) {
+	for (i = 0; i < symbols; i++) 
+	{
 	  p = ptr;
 	  Sym[i].dir = p->dir;
 	  Sym[i].str = p->str;
@@ -1449,7 +1547,8 @@ void ListProgram(char *s)
 	strcpy(n,s);
 	if (strchr(n,'.') == NULL)
 	  strcat(n,".MAC");
-	if ((m = fopen(n,"wb")) == NULL) {
+	if ((m = fopen(n,"wb")) == NULL) 
+	{
 	  printf("\a\nError al crear el fichero %s\n",n);
 	  exit(5);
 	}
@@ -1462,7 +1561,8 @@ void ListProgram(char *s)
 	dis_fprintf(m,"\n\n\tORG\t");
 	PrintHex(OFFSET,FALSE,4);
 	dis_fprintf(m,"\n\n");
-	while (PC < LIMIT) {
+	while (PC < LIMIT) 
+	{
 	  for (PC1 = PC; ((PC1 < LIMIT) && (TYPE[PC1].Code == TYPE[PC].Code)); PC1++) ;
 	  if (TYPE[--PC1].Code)
 	    DISASMCODE(PC,PC1);
@@ -1483,7 +1583,8 @@ int main(int argc, char *argv[])
 	printf("       Universidad Central de Las Villas\n");
 	printf("           Instituto de Informática\n");
 	printf("          Lic. David Izada Rodríguez\n\n");
-	if (argc < 2) {
+	if (argc < 2) 
+	{
 	  printf("\aUso: DIS8 [--compat] [--crlf] [8080|8085|Z80] <.COM> <.PAR> <.MAC> [<.SYM>]\n");
 	  exit(1);
 	}
@@ -1499,7 +1600,8 @@ int main(int argc, char *argv[])
 	    else
 	      CPU = l = 0;
 	argc -= l;
-	if ((argc < 4) || (argc > 5)) {
+	if ((argc < 4) || (argc > 5)) 
+	{
 	  printf("\aUso: DIS8 [--compat] [--crlf] [8080|8085|Z80] <.COM> <.PAR> <.MAC> [<.SYM>]\n");
 	  exit(1);
 	}
