@@ -6,6 +6,18 @@ The programs print their own dates: DISZ80 version 3.2 (19-10-88), DIS8 version 
 
 The files under [`original/`](original/) are the author's sources and binaries, kept byte for byte. Nothing in that directory is modified by this port.
 
+## History
+
+The code has two pieces: the disassembler and the simulator. The simulator code is not available and is not in this repo.
+
+DIS8 is the disassembler, in a few incarnations, mainly for the 8080, 8085, and Z80. The Motorola 6800 version (DIS6800) was a special case.
+
+The code in this repo, including [`PLUS.ASM`](original/PLUS.ASM) and [`original/PLUS.SYS`](original/PLUS.SYS), was used on the NEC PC-9801F equipped with the PLUS-80+ card, to execute Z80 code from MS-DOS. PLUS is the small host program that loaded (downloaded) Z80 code onto the PLUS-80+ card so the card's Z80 ran it. The card, made by Canopus Electronics, was used with NEC PC-9801E/F machines and had its own Z80. The PC-9801's 8086 acted as host and handled I/O. The [Neo Kobe PC-98 archive](https://archive.org/download/NeoKobe-NecPc-98012017-11-17) is a PC-98 software archive. [`original/PLUS.ASM`](original/PLUS.ASM) is the same 19208 bytes as [`original/PLUS.SYS`](original/PLUS.SYS).
+
+Later, David disassembled the PLUS.SYS driver included in NEC's original MS-DOS for the PLUS-80+ card, fixed a few errors, and built a simulation that let anyone run the 8-bit code on IBM PCs.
+
+In 1990 another team created a debugger similar to Turbo Debugger for Z80 programs on MS-DOS. It used both the real hardware and his simulation.
+
 ## Programs
 
 | Port | Original | Role |
@@ -15,7 +27,7 @@ The files under [`original/`](original/) are the author's sources and binaries, 
 | `dis6800` | `DIS6800.C` | 6800 |
 | `comtohex` | `COMTOHEX.C` | `.COM` to the HEX records described in `CPM.DOC` |
 | `hextocom` | `HEXTOCOM.C` | HEX data records concatenated into a `.COM` |
-| `plus` | `PLUS.C` | Dry run of the PLUS-80 loader fragment. It does not touch hardware. |
+| `plus` | `PLUS.C` | Dry run of the PLUS-80+ loader fragment. It does not touch hardware. |
 
 ```
 dis8 [--compat] [--crlf] [8080|8085|Z80] file.com file.par file.mac [file.sym]
@@ -59,8 +71,9 @@ DISZ80 compat listings are checked against the 1988 source. There is no DOS exec
 | [docs/DISASM.md](docs/DISASM.md) | `DISASM.CHI`, ChiWriter font codes removed |
 | [docs/par.md](docs/par.md) | Parameter-file format |
 | [docs/known-issues.md](docs/known-issues.md) | Control-flow bugs, with original and corrected listings |
+| [docs/plus-sys.md](docs/plus-sys.md) | What the bytes of `original/PLUS.SYS` contain |
 
-Each converted document has the Spanish text and an English translation.
+Each document converted from the original files has the Spanish text and an English translation. `docs/plus-sys.md` is an English note on the bytes in `original/PLUS.SYS`.
 
 ## Notice
 
@@ -73,7 +86,7 @@ Each converted document has the Spanish text and an English translation.
 - `PLUS.SYS` contains `Plus Vers 1.2`. The comments in `PLUS.C` are the author's. The port does not run that loader against hardware.
 - The `P*.OBJ` files are Microsoft 8086 relocatable objects.
 
-Sample `.ASM` files in `original/` are 8086-style sources. They are not listings produced by DIS8.
+Sample `.ASM` files in `original/` are 8086-style sources. They are not listings produced by DIS8. Among them are [`EMZ.ASM`](original/EMZ.ASM), [`EMZCPM.ASM`](original/EMZCPM.ASM), [`EMZPROC.ASM`](original/EMZPROC.ASM), and [`PLUS.ASM`](original/PLUS.ASM). [`PLUS.ASM`](original/PLUS.ASM) is the same 19208 bytes as [`original/PLUS.SYS`](original/PLUS.SYS).
 
 ## License
 
