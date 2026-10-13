@@ -1,0 +1,56 @@
+		8080, 8085 and Z-80 DISASSEMBLER
+
+Uso del DIS8.EXE:
+
+ DIS8 [8080|8085|Z80] <.COM> <.PAR> <.MAC> [<.SYM>]
+
+El fichero de par metros est  formado por l¡neas con la siguiente estructura:
+
+<Comando><Par metros del Comando>
+
+Los posibles comandos son: (se escribe s¢lo el primer car cter)
+
+eXtract <hex>		; Extraer el programa desde <hex> en el fichero
+Offset	<hex>		; Direcci¢n de carga del programa
+Entry	<hex>		; Posible punto de entrada del programa en <hex>
+Break	<hex>		; Interrumpir la exploraci¢n autom tica en <hex>
+Help	<hex>  <string> ; Comentario para el fuente
+Label	<hex>		; Generar una etiqueta en <hex>
+String0	<hex>		; String terminada en 00h comienza en <hex>
+String$	<hex>		; String terminada en '$' comienza en <hex>
+Word	<hex1> <hex2>	; Words desde <hex1> hasta <hex2>
+DS	<hex1> <hex2>	; Generar DS para el rango <hex1> hasta <hex2>
+C	<hex1> <hex2>	; Poner el c¢digo como comentario
+Upper	<hex>		; Define el l¡mite superior del c¢digo
+
+por ejemplo:
+
+O 0100
+E 0100
+S0 0179
+S0 018B
+S0 019A
+S0 01AA
+S0 01B9
+E 0290
+E 0355
+S0 0386
+S0 03C1
+S0 069D
+S0 06AA
+W 06B0 06B3
+D 7BF7 7FFF
+C 6C00 7C00
+
+El fichero de s¡mbolos opcional puede ser generado por el LINKMT o con un
+editor. Est  formado por l¡neas con el siguiente formato:
+
+<direcci¢n hex>	<nombre de la variable de hasta 6 caracteres>
+
+		6800 DISASSEMBLER
+
+Uso del DIS6800.EXE
+
+	DIS6800 <.COM> <.PAR> <.MAC> [<.SYM>]
+
+El fichero de par metros tiene la misma estructura que el anterior

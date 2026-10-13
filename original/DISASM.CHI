@@ -1,0 +1,775 @@
+\1cw
+\U1STANDARD
+\U2SMALL
+\U3ITALIC
+\U4BOLD
+\U"ORATOR
+\U%3D
+\FD
+\+
+\+
+\+
+\+
+\^\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \@\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \^\,
+\=
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\^\ \ \ \ \ \ \ \ \ \ \ \ \ \ \%DESENSAMBLADOR DE PROGRAMAS DE 8 BITS\ \ \ \ \ \ \ \ \ \ \ \ \ \^\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\1Autor : \,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Lic. David Izada Rodr¡guez\ \ \ \ \ \ \ \ \[Inst. Inform tica UCLV.\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\%INDICE \1:\,
+\-
+\+
+\,
+\-
+\+
+\"1 .- Resumen\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \[ 3\,
+\-
+\+
+2 .- Introducci¢n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \[ 4\,
+\-
+\+
+3 .- Desarrollo\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \[ 5\,
+\-
+\+
+4 .- Conclusiones\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \[ 9\,
+\-
+\+
+5.- Bibliograf¡a\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \[10\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\%RESUMEN \1:\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Este programa facilita el desensamblaje \ de \ programas \ de \ 8 
+\-
+\+
+bits escritos originalmente en \ 8080, \ 8085 \ ¢ \ Z-80 \ mediante \ un 
+\-
+\+
+m‚todo \ de \ b£squeda \ autom tica \ de \ la \ posible \ estructura \ del 
+\-
+\+
+programa. Permite al usuario adem s definir un fichero de s¡mbolos 
+\-
+\+
+para obtener el programa fuente en un \ estado \ m s \ legible \ (este 
+\-
+\+
+fichero de s¡mbolos es compatible con el generado por el \ LINKMT), 
+\-
+\+
+enlazador de \3CPM\1. El programa fue escrito \ en \ Microsoft \ C \ y \ es 
+\-
+\+
+capaz de desensamblar las instrucciones \ \3ocultas \ \1del \ Z-80.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Para permitir el uso de emuladores (que generalmente utilizan 
+\-
+\+
+el formato .HEX) se entregan dos programas: \ COMtoHEX \ y \ HEXtoCOM 
+\-
+\+
+que efect£an la conversi¢n de formatos.\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\%INTRODUCCION \1:\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Existen programas de este tipo para el trabajo con \ lenguajes 
+\-
+\+
+ensambladores 16 \3bits\1, pero todav¡a se usan mucho los \ microproce- 
+\-
+\+
+sadores de 8 \3bits \1en dispositivos electr¢nicos en aplicaciones in- 
+\-
+\+
+dustriales de control ¢ptimo. En estos momentos no se cuentan \ con 
+\-
+\+
+las herramientas necesarias para hacer que el \ trabajo \ con \ estos 
+\-
+\+
+dispositivos se haga lo m s c¢moda posible.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[El presente trabajo es parte de un conjunto de soluciones que 
+\-
+\+
+se le est n comenzando a dar a estos \ problemas \ y \ uqe \ se \ est n 
+\-
+\+
+desarrollando \ con \ la \ ¢ptica \ de \ poner \ a \ punto \ los \ sistemas 
+\-
+\+
+realizando su trabajo de puesta a punto casi completa en \ m quinas 
+\-
+\+
+de 16 \3bits\1, aumentando mucho las comodidades de \ este \ proceso, \ y 
+\-
+\+
+que s¢lo la parte de montaje necesite de otras herramientas. \ Este 
+\-
+\+
+programa, por tanto, est  elaborado en \4MS-C \1versi¢n \ 5.10 \ permite 
+\-
+\+
+realizar todo el proceso \ de \ desensamblaje \ a \ programas \ que \ se 
+\-
+\+
+quieran mejorar y no se cuente con el listado fuente, para \ usarlo 
+\-
+\+
+en una aplicaci¢n dada, o tal ves, s¢lo \ se \ necesite \ obtener \ el 
+\-
+\+
+fuente para saber como trabaja \ determinado \ sistema, \ factor \ muy 
+\-
+\+
+importante teniendo en cuenta que muchas veces se reciben \ equipos 
+\-
+\+
+de los cuales no se tiene documentaci¢n alguna.\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\%DESARROLLO \1:\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Los desensambladores son una parte necesaria del \ trabajo \ de 
+\-
+\+
+un programador, ya que son programas \ que \ obtiene \ a \ partir \ del 
+\-
+\+
+c¢digo de m quina de alg£n microprocesador, un programa fuente \ en 
+\-
+\+
+lenguaje ensamblador o nemot‚cnico. El lenguaje \ ensamblador \ est  
+\-
+\+
+muy cercano al lenguaje de m quina , en realidad muchas sentencias 
+\-
+\+
+del \ lenguaje \ ensamblador \ no \ son \ \ m s \ \ que \ \ representaciones 
+\-
+\+
+simb¢licas de \ sentencias \ de \ lenguaje \ de \ m quina. \ Adem s \ las 
+\-
+\+
+sentencias de ensamblador suelen tener un formato fijo, \ que \ hace 
+\-
+\+
+que sea, relativamente m s f cil el analizarlas, se puede decir en 
+\-
+\+
+este caso, que sea posible el proceso \ de \ desensamblaje, \ ya \ que 
+\-
+\+
+hasta el momento no se conoce de ning£n sistema que \ logre \ llevar 
+\-
+\+
+de c¢digo de m quina a alg£n \ lenguaje \ de \ alto \ nivel. \ Esto \ se 
+\-
+\+
+traduce como que en lenguaje \ ensamblador \ no \ existen \ sentencias 
+\-
+\+
+anidadas y estructuras por el estilo.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Las t‚cnicas que se emplean \ en \ un \ desensamblador \ son \ las 
+\-
+\+
+mismas que las empleadas en la construcci¢n de un compilador o m s 
+\-
+\+
+espec¡ficamente en la de un ensamblador. Se debe realizar un \ an - 
+\-
+\+
+lisis del c¢digo objeto para descomponerlo en sus componentes \ b - 
+\-
+\+
+sicos para obtener las sentencias correctas del \ lenguaje \ fuente, 
+\-
+\+
+adem s se da la posibilidad de crear un \ fichero \ de \ comando \ que 
+\-
+\+
+permita indicarle al programa informaci¢n necesaria \ para \ que \ lo 
+\-
+\+
+que se genere quede lo m s legible posible y \ lista \ para \ su \ uso 
+\-
+\+
+posterior.\,
+\-
+\+
+
+\-
+\+
+\ \ \ \ \[La estructura interna \ del \ programa \ se \ basa \ en \ construir 
+\-
+\+
+varias tablas que contengan toda \ la \ informaci¢n \ necesaria \ para 
+\-
+\+
+desensamblar programas objetos de \48080\1, \48085 \1y \4Z-80\1. Estas \ tablas 
+\-
+\+
+se separan, no de acurdo al lenguaje sino, de acuerdo al \ tipo \ de 
+\-
+\+
+instrucci¢n, esto se comprende si se \ analiza \ que \ la \ diferencia 
+\-
+\+
+entre el \48080 \1y \48085 \1en cuanto a c¢digo es de dos instrucciones, y 
+\-
+\+
+que todos los c¢digos que existen en \48080 \1existen tambi‚n en \ \4Z-80 
+\-
+\+
+\1por \ lo \ cual \ existe \ una \ tabla \ que \ contiene \ casi \ todas \ las 
+\-\/
+\+
+instrucciones de \ \48080 \ \1que \ tiene \ la \ informaci¢n, \ adem s, \ del 
+\-
+\+
+nemot‚cnico del \4Z-80\1.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Las tablas en forma general contienen informaci¢n acerca \ del 
+\-
+\+
+tama¤o en \3bytes \1de cada instrucci¢n, si es una intrucci¢n de salto 
+\-
+\+
+o llamada a subrutina, si es un retorno o salto incondicional, \ si 
+\-
+\+
+es una instrucci¢n m£ltiple, etc.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Se necesita, de acuerdo a la estructura de estos \ microproce- 
+\-
+\+
+sadores, una tabla que contenga informaci¢n de \ las \ instrucciones 
+\-
+\+
+que s¢lo existen en \4Z-80\1, una para las instrucciones \ en \ general, 
+\-
+\+
+una para la informaci¢n del tratamiento de \ registros \ de \ ¡ndices 
+\-
+\+
+que se sale del tratamiento normal de la mayor¡a de \ las \ instruc- 
+\-
+\+
+ciones y una para almacenar instrucciones que por su sencill‚s \ no 
+\-
+\+
+necesitan toda la informaci¢n de las dem s.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Se almacena una tabla de referencias para \ cada \ instrucci¢n, 
+\-
+\+
+que no depende de su estructura sino de \ la \ informaci¢n \ dada \ al 
+\-
+\+
+programa para realizar \ el \ desensamblaje. \ Esta \ contiene \ si \ la 
+\-
+\+
+instrucci¢n es c¢digo o dato, si \ es \ dato \ de \ tipo \ \3byte\1, \ \3word, 
+\-
+\+
+string\1; si se comenta o no, si lleva etiqueta o \ no \ y \ si \ se \ le 
+\-
+\+
+defini¢ s¡mbolos.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[El \ proceso \ de \ desensamblaje \ se \ basa \ de \ ir \ recorriendo 
+\-
+\+
+recursivamente todo el fichero para formar la tabla de informaci¢n 
+\-
+\+
+que servir  luego para \ ir \ desensamblando \ cada \ instrucci¢n \ del 
+\-
+\+
+c¢digo objeto generando la informaci¢n necesaria \ para \ cada \ una, 
+\-
+\+
+esto se hace con un sistema \ de \ procedimientos \ y \ funciones \ que 
+\-
+\+
+permiten obtener el tama¤o de cada instrucci¢n, la informaci¢n \ de 
+\-
+\+
+sus \ operandos, \ la \ generaci¢n \ de \ la \ instrucci¢n \ en \ \ fuente, 
+\-
+\+
+etiquetas de acuerdo a la direcci¢n, comentarios, etc.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[El programa es usando invocando, desde el Sistema \ Operativo, 
+\-
+\+
+un comando que tiene la siguiente sintaxis: \,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[\4DIS8 [8080|8085|Z80] <.COM> <.PAR> <.MAC> [<.SYM>]
+\-
+\+
+
+\-\/
+\+
+\,
+\-
+\+
+\ \ \ \ \[\1El fichero de par metros \ est  \ formado \ por \ l¡neas \ con \ la 
+\-
+\+
+siguiente estructura:\,
+\-
+\+
+\,
+\-
+\+
+\4<Comando> <Par metros del Comando>\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[\1Los posibles comandos son :\,
+\-
+\+
+\,
+\-
+\+
+\4O\1ffset\ \4<hex>\ \ \ \ \ \ \ \[\1; Direcci¢n de carga del programa\,
+\-
+\+
+\4E\1ntry \4<hex>\ \ \ \ \ \ \ \ \[\1; Posible punto de \ entrada \ del \ programa \ en 
+\-
+\+
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \4<hex>\,
+\-
+\+
+B\1reak \4<hex>\ \ \ \ \ \ \ \ \[\1; Interrumpir \ la \ exploraci¢n \ autom tica \ en 
+\-
+\+
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \4<hex>\,
+\-
+\+
+L\1abel \4<hex>\ \ \ \ \ \ \ \ \[\1; Generar una etiqueta en \4<hex>\,
+\-
+\+
+S\1tring\40 <hex>\ \ \ \ \ \ \[\1; String terminada en 00h comienza en \4<hex>\,
+\-
+\+
+S\1tring\4$ <hex>\ \ \ \ \ \ \[\1; String terminada en '$' comienza en \4<hex>\,
+\-
+\+
+W\1ord \4<hex1> <hex2>\ \[\1; Words desde \4<hex1> \1hasta \4<hex2>\,
+\-
+\+
+DS <hex1> <hex2>\ \ \ \[\1; Generar DS para el rango \4<hex1> \1hasta \4<hex2>\,
+\-
+\+
+C <hex1> <hex2>\ \ \ \ \[\1; Poner el c¢digo como comentario\,
+\-
+\+
+\4U\1pper \4<hex>\ \ \ \ \ \ \ \ \[\1; Define el l¡mite superior del c¢digo \,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Se escribe s¢lo las las partes en negrita, por ejemplo:\,
+\-
+\+
+\,
+\-
+\+
+O  0100\,
+\-
+\+
+E  0100
+\-
+\+
+S0 0179
+\-
+\+
+S0 018B
+\-
+\+
+S0 019A
+\-
+\+
+S0 01AA
+\-
+\+
+S0 01B9
+\-
+\+
+E  0290
+\-
+\+
+E  0355
+\-
+\+
+S0 0386
+\-
+\+
+S0 03C1
+\-
+\+
+S0 069D
+\-
+\+
+S0 06AA
+\-
+\+
+W  06B0 06B3
+\-\/
+\+
+D  7BF7 7FFF
+\-
+\+
+C  6C00 7C00
+\-
+\+
+\,
+\-
+\+
+Este fichero de par metros \ le \ da \ la \ informaci¢n \ necesaria \ al 
+\-
+\+
+programa para dirigir el proceso de desensamblaje.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[El fichero de s¡mbolos es opcional y tiene el mismo \ formatos 
+\-
+\+
+que los ficheros de s¡mbolos generados por el \3LINKMT\1. Est  formado 
+\-
+\+
+por l¡neas con el siguiente formato:\,
+\-
+\+
+\,
+\-
+\+
+\4<direcci¢n hex> <nombre de la variable de hasta 6 caracteres>\,
+\-
+\+
+\,
+\-
+\+
+\1y le da informaci¢n al \ programa \ de \ en \ que \ direcci¢nes \ van \ a 
+\-
+\+
+existeir s¡mbolos para que se pongan como etiquetas y hacer que el 
+\-
+\+
+programa quede en un estado lo m s legible posible.\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\%CONCLUSIONES \1:\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Al quedar \ terminados \ todos \ los \ sistemas \ de \ ayuda \ a \ la 
+\-
+\+
+programaci¢n en 8 \ \3bits\1, \ los \ t‚cnicos \ que \ trabajan \ con \ estos 
+\-
+\+
+dispositivos ver n ampliamente mejorado su \ trabajo \ de \ puesta \ a 
+\-
+\+
+punto ampliando de esta forma la explotaci¢n que se \ hace \ de \ los 
+\-
+\+
+microprocesadores de 8 \3bits\1.\,
+\-
+\+
+\,
+\-
+\+
+\ \ \ \ \[Con la estructura con la que fue \ dise¤ado \ el \ programa, \ se 
+\-
+\+
+pueden obtener desensambladores \ de \ otros \ microprocesadores \ con 
+\-
+\+
+s¢lo cambiar las tablas de s¡mbolos, esto es muy importante ya que 
+\-
+\+
+se conoce que se esta trabajando con otros \ dispositivos \ como \ el 
+\-
+\+
+\4TMS-320 \1en trabajos de an lisis de voz y tratamiento de se¤ales de 
+\-
+\+
+sat‚lites, de contar con la informaci¢n necesaria el trabajo ser¡a 
+\-
+\+
+ampliado en tal sentido.\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\,
+\-
+\+
+\%BIBLIOGRAFIA \":\,
+\-
+\+
+\,
+\-
+\+
+\1[ 1] Disk Operating System. Technical Reference.\,
+\-
+\+
+\ \ \ \ \[Microsoft Corporation.
+\-
+\+
+[ 2] Microsoft Pascal 3.31. Reference Manual.\,
+\-
+\+
+\ \ \ \ \[Microsoft Corporation.\,
+\-
+\+
+[ 3] Microsoft Pascal 3.31. User's Guide.\,
+\-
+\+
+\ \ \ \ \[Microsoft Corporation.\,
+\-
+\+
+[ 4] A Book on C,\,
+\-
+\+
+\ \ \ \ \[An Introduction to programming in C.\,
+\-
+\+
+[ 5] Personal Computer XT System. Technical Reference.\,
+\-
+\+
+\ \ \ \ \[IBM Inc.\,
+\-
+\+
+[ 6] SuperCalc 4, User's Guide.\,
+\-
+\+
+\ \ \ \ \[Computer Associates.\,
+\-
+\+
+[ 7] SuperCalc 4, Reference Manual.\,
+\-
+\+
+\ \ \ \ \[Computer Associates.
+\-
+\+
+[ 8] Ducan, Ray; Programer's Quick Reference Series, IBM ROM BIOS\,
+\-
+\+
+\ \ \ \ \[Microsoft PRESS, A Division of Microsoft Corporation\,
+\-
+\+
+[ 9] Freedman, Alan; Glosario de Computaci¢n.\,
+\-
+\+
+\ \ \ \ \[Computer Language Company Inc.\,
+\-
+\+
+[10] Gries, David; Construcci¢n de compiladores.\,
+\-
+\+
+\ \ \ \ \[Edici¢n revolucionaria.\,
+\-
+\+
+[11] Jensen, K.; Wirth, N. Pascal User Manual and Report.\,
+\-
+\+
+\ \ \ \ \[Springer Verlag.\,
+\-
+\+
+[12] Rohl, J. S.; Barrett, H. J. Programming via Pascal.\,
+\-
+\+
+\ \ \ \ \[Cambridge Computer Science.\,
+\-
+\+
+[13] Knuth, Donald E. Fundamental Algorithms.\,
+\-
+\+
+\ \ \ \ \[Amsterdam, Adison-Wesley Publising, 1975.\,
+\-
+\+
+[14] Knuth, Donald E. Sorting and Searching.\,
+\-
+\+
+\ \ \ \ \[Amsterdam, Adison-Wesley Publising, 1975.\,
+\-
+\+
+
+\-
+\+
+\,
+\-
+\=
+

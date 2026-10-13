@@ -1,0 +1,65 @@
+*****	M80   *****
+
+M80 [<.REL>,<.PRN>=<.MAC>/R/L/Z/I]
+
+R - Generar REL
+L - Generar PRN
+Z - Z80
+I - INTEL 8080
+
+Informaci¢n en Tabla de S¡mbolos:
+
+I - p£blico o global
+U - indefinido
+* - externo
+' - valor reubicable de programa
+" - valor reubicable de dato
+! - valor reubicable de directiva COMMON
+
+Errores:
+
+A - Error de argumento
+C - Anidado condicional en macro
+D - S¡mbolo definido doble
+E - Uso ilegal del EXTERNAL
+M - S¡mbolo multidefinido
+N - Error num‚rico
+O - C¢digo de operaci¢n err¢neo o sintaxis cuestionable
+P - Error de fase
+Q - Sintaxis cuestionable
+R - Error de reubicaci¢n
+W - S¡mbolo indefinido
+V - Error de valor
+
+*****	L80   *****
+
+L80 [<REL>/opciones,...]
+
+Opciones:
+
+	/P:xxxx - Direcci¢n inicial del programa (0103h)
+	/D:xxxx - Direcci¢n inicial de los datos (delante del c¢digo)
+	/N	- Identifica el nombre del programa ejecutable
+	/S	- B£squeda selectiva en bibliotecas
+	/E	- Retornar al Sistema Operativo
+	/X	- Generar .HEX
+
+Formato .HEX:
+
+	L¡neas con la siguiente estructura:
+
+	:<LL><DDDD>00<dd><dd>...<dd><SS>
+
+	donde:
+
+		LL	- longitud en bytes
+		DDDD	- direcci¢n donde se ubicar n los bytes
+		dd	- bytes de informaci¢n
+		SS	- suma de control (debe sumar 0 toda la l¡nea)
+
+	y la £ltima l¡nea ser :
+
+	:0000000000
+
+*****	Sintaxis del M80   *****
+
