@@ -1,0 +1,9 @@
+	.8085
+
+	ORG	0100H
+
+L0100:	RIM
+	NOP
+L0102:	RET
+
+	END

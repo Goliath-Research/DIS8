@@ -1,0 +1,11 @@
+	.Z80
+
+	ORG	0100H
+
+L0100:	LD	(L0106),BC
+	NOP
+	NOP
+L0106:	NOP
+	RET
+
+	END

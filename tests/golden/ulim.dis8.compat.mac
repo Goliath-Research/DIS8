@@ -1,0 +1,10 @@
+	.Z80
+
+	ORG	0100H
+
+L0100:	NOP
+	NOP
+	NOP
+	NOP
+
+	END

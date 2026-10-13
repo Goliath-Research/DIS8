@@ -1,0 +1,11 @@
+	.Z80
+
+	ORG	0100H
+
+L0100:	NOP
+	NOP
+	LD	B,C
+	LD	B,D
+	RET
+
+	END

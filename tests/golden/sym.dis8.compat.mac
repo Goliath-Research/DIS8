@@ -1,0 +1,8 @@
+	.Z80
+
+	ORG	0100H
+
+L0100:	JP	FOO
+FOO:	RET
+
+	END

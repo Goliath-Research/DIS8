@@ -1,0 +1,8 @@
+	.Z80
+
+	ORG	0100H
+
+L0100:	LD	(IX+05H),00H
+	RET
+
+	END

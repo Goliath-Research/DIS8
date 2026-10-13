@@ -1,0 +1,9 @@
+	.Z80
+
+	ORG	0100H
+
+L0100:	SLL	(IX+00H)
+	JP	L0100
+	DB	0C9H			;0107H
+
+	END

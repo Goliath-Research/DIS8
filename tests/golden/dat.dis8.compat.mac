@@ -1,0 +1,11 @@
+	.8080
+
+	ORG	0100H
+
+L0100:	NOP
+	NOP
+	MOV	B,C
+	MOV	B,D
+	RET
+
+	END

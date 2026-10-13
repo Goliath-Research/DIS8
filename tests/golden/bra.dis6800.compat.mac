@@ -1,0 +1,6 @@
+	ORG	0100H
+
+L0100:	BRA	L0100
+	RTS
+
+	END
