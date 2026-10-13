@@ -818,12 +818,12 @@ void PrintHead()
 	  do
 	    p = q--;
 	  while ((p != Txt) && (p->dir == q->dir));
-	  do 
+	  do {
 	    dis_fputs("; ",m);
 	    dis_fputs(p->str,m);
 	    dis_fputs("\n",m);
 	    q  = p++;
-	  while ((p != Txt + comments) && (p->dir == q->dir));
+	  } while ((p != Txt + comments) && (p->dir == q->dir));
 	}
 	if (TYPE[PC].Label) 
 	{
@@ -886,7 +886,7 @@ void PrintString(byte c)
 	byte	b;
 
 	dis_fprintf(m,"DB\t");
-	do 
+	do {
 	  b = PROG[PC];
 	  if ((b > 31) && (b < 127)) 
 	  {
@@ -910,6 +910,7 @@ void PrintString(byte c)
 	    if (b != c)
 	      dis_putc(',',m);
 	  }
+	}
 	while (PROG[PC++] != c);
 	if (ASCII)
 	  dis_putc('\'',m);
@@ -936,10 +937,10 @@ void DISASMComment()
 	word    len,IP,count = 0;
 
 	IP = PC;
-	do
+	do {
 	  count++;
 	  IP++;
-	while ((TYPE[IP].Data == 5) && (!TYPE[IP].Label));
+	} while ((TYPE[IP].Data == 5) && (!TYPE[IP].Label));
 	while ((len = LEN(PC)) <= count) 
 	{
 	  n = PrintDB(PC,len);
