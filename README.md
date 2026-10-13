@@ -12,7 +12,7 @@ The code has two pieces: the disassembler and the simulator.
 
 DIS8 is the disassembler, in a few incarnations, mainly for the 8080, 8085, and Z80. The Motorola 6800 version (DIS6800) was a special case.
 
-PLUS is the small host program that loaded (downloaded) Z80 code onto the PLUS-80 card so the card's Z80 ran it. The card, made by Canopus Electronics for the NEC PC-9801 series, had its own Z80. The PC-9801's 8086 acted as host and handled I/O.
+PLUS is the small host program that loaded (downloaded) Z80 code onto the PLUS-80 card so the card's Z80 ran it. The card, made by Canopus Electronics for the NEC PC-9801 series, had its own Z80. The PC-9801's 8086 acted as host and handled I/O. [`PLUS.SYS`](original/PLUS.SYS) was the alternative used on the NEC PC-9801 when the PLUS-80 card was not present: a software fallback.
 
 Using both tools, and with access to the PLUS-80 card, another team created a debugger similar to Turbo Debugger for Z80 programs on MS-DOS in 1990.
 
