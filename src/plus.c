@@ -33,21 +33,23 @@ static const byte prog1[24] = {
 static byte window[256];
 static byte flag = 0x0D;
 
-static void outp(unsigned port, unsigned value)
+/* MSVC reserves outp as a port-I/O intrinsic, so this dry-run logger
+   cannot use that name. The printed line still says outp. */
+static void write_port(unsigned port, unsigned value)
 {
 	printf("outp(%02X) <- %02X\n", port, value & 0xFFu);
 }
 
 static void stop_z80(void)
 {
-	outp(RC8255, 0xB4);
-	outp(RC8255, 0x0F);
-	outp(RC8255, flag);
+	write_port(RC8255, 0xB4);
+	write_port(RC8255, 0x0F);
+	write_port(RC8255, flag);
 }
 
 static void continue_z80(void)
 {
-	outp(RC8255, 0x0E);
+	write_port(RC8255, 0x0E);
 	printf("delay 100 (host timer omitted)\n");
 }
 
