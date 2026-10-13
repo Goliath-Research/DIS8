@@ -6,6 +6,16 @@ The programs print their own dates: DISZ80 version 3.2 (19-10-88), DIS8 version 
 
 The files under [`original/`](original/) are the author's sources and binaries, kept byte for byte. Nothing in that directory is modified by this port.
 
+## History
+
+The code has two pieces: the disassembler and the simulator.
+
+DIS8 is the disassembler, in a few incarnations, mainly for the 8080, 8085, and Z80. The Motorola 6800 version (DIS6800) was a special case.
+
+PLUS is a small program that downloaded the code from the PLUS-80 card included with the NEC PC-9801F to emulate Z80 code on the 8086.
+
+Using both tools, and with access to the PLUS-80 card, another team created a debugger similar to Turbo Debugger for Z80 programs on MS-DOS in 1990.
+
 ## Programs
 
 | Port | Original | Role |
@@ -73,7 +83,7 @@ Each converted document has the Spanish text and an English translation.
 - `PLUS.SYS` contains `Plus Vers 1.2`. The comments in `PLUS.C` are the author's. The port does not run that loader against hardware.
 - The `P*.OBJ` files are Microsoft 8086 relocatable objects.
 
-Sample `.ASM` files in `original/` are 8086-style sources. They are not listings produced by DIS8.
+Sample `.ASM` files in `original/` are 8086-style sources. They are not listings produced by DIS8. The simulator-side sources are [`EMZ.ASM`](original/EMZ.ASM), [`EMZCPM.ASM`](original/EMZCPM.ASM), [`EMZPROC.ASM`](original/EMZPROC.ASM), and [`PLUS.ASM`](original/PLUS.ASM).
 
 ## License
 
