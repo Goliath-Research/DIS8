@@ -1,6 +1,6 @@
 # What the bytes of `original/PLUS.SYS` are
 
-`original/PLUS.SYS` is not Canopus's shipped binary. It is built from David Izada Rodríguez's disassembly of the original Canopus PLUS.SYS, with his fixes applied.
+The code in this repo, including `PLUS.ASM` and `original/PLUS.SYS`, was used on the NEC PC-9801F equipped with the PLUS-80+ card, to execute Z80 code from MS-DOS. Later, David disassembled the PLUS.SYS driver included in NEC's original MS-DOS for the PLUS-80+ card, fixed a few errors, and built a simulation that let anyone run the 8-bit code on IBM PCs. That simulator code is not available and is not in this repo.
 
 The file is 19208 bytes (last byte `1A` at offset `4B07`). SHA-256 `868c2113bcecd8e2ca02cf5625307ad7d6f9632f2738c0906ba3ed4de903943a`. `cmp` finds those bytes identical to `original/PLUS.ASM` (same length, same SHA-256). Both begin with the text `CODE SEGMENT` and end with `END` followed by `1A`. `PLUS.ASM` matches `PLUS.SYS`. There is no separate assembled image of `PLUS.ASM` in the tree to compare with `PLUS.SYS`.
 
