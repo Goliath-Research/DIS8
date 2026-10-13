@@ -1,1 +1,3 @@
+* text=auto eol=lf
 original/** -text -diff
+tests/fixtures/*.com binary
